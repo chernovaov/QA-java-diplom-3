@@ -1,8 +1,0 @@
--------------------------------------------------------------------------------
-Test set: RegPageTest
--------------------------------------------------------------------------------
-Tests run: 4, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 60.754 s <<< FAILURE! - in RegPageTest
-registrationNewUserWithEmptyPasswordTest(RegPageTest)  Time elapsed: 13.491 s  <<< FAILURE!
-java.lang.AssertionError: Ошибка «Некорректный пароль» не появилась
-	at RegPageTest.registrationNewUserWithEmptyPasswordTest(RegPageTest.java:99)
-

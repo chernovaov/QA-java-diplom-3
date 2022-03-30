@@ -5,7 +5,7 @@ import io.qameta.allure.junit4.DisplayName;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
+import java.time.Instant;
 import java.util.Map;
 
 import static com.codeborne.selenide.Selenide.*;
@@ -20,9 +20,13 @@ public class RegPageTest extends Config {
     MainPage mainPage;
     RegPage regPage = page(RegPage.class);
 
+    Instant instant = Instant.now();
+    long timeStampMillis = instant.toEpochMilli(); //префикс для сгенерированных email
+
     @Before
     public void before() {
         mainPage = open(MAIN_PAGE_URL, MainPage.class);
+
     }
 
     @After
@@ -39,10 +43,10 @@ public class RegPageTest extends Config {
                 .signInButtonClick()
                 .registerLinkClick()
                 .setName(name)
-                .setEmail("11"+email) //сгенерированные email стали повторяться, добавлены символы для исключения повторов
+                .setEmail(timeStampMillis+email) //добавлен префикс, чтобы сгенерированные email не повторялись
                 .setPassword(password)
                 .regButtonClick()
-                .setEmail("11"+email)
+                .setEmail(timeStampMillis+email)
                 .setPassword(password)
                 .enterButtonClick();
         boolean isExecuteOrderButtonDisplayedNow = page(MainPage.class).executeOrderButtonVisible();
@@ -57,17 +61,16 @@ public class RegPageTest extends Config {
                 .signInButtonClick()
                 .registerLinkClick()
                 .setName(name)
-                .setEmail("11"+email)
+                .setEmail(timeStampMillis+email)
                 .setPassword(password)
                 .regButtonClick()
                 .registerLinkClick()
                 .setName(name)
-                .setEmail("11"+email)
+                .setEmail(timeStampMillis+email)
                 .setPassword(password)
                 .regButtonClick();
         assertTrue("Ошибка при создании пользователя с таким же email не отображается", regPage.isEmailCorrect());
     }
-
 
     @Test
     @DisplayName("Проверка, что пользователь не может зарегистрироваться с паролем 5 символов")
