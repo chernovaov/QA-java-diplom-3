@@ -13,12 +13,14 @@ import static com.page.MainPage.MAIN_PAGE_URL;
 import static org.junit.Assert.*;
 
 public class RegPageTest extends Config {
-    Map<String, String> newUser = new UserOperations().register();
+    UserOperations userOperations = new UserOperations();
+    Map<String, String> newUser = userOperations.register();
     String email = newUser.get("email");
     String password = newUser.get("password");
     String name = newUser.get("name");
     MainPage mainPage;
     RegPage regPage = page(RegPage.class);
+
 
     Instant instant = Instant.now();
     long timeStampMillis = instant.toEpochMilli(); //префикс для сгенерированных email
@@ -31,7 +33,7 @@ public class RegPageTest extends Config {
 
     @After
     public void tearDown() {
-        UserOperations.delete();
+        userOperations.delete();
         webdriver().driver().close();
     }
 
@@ -86,7 +88,7 @@ public class RegPageTest extends Config {
                 .regButtonClick();
         assertTrue("Ошибка «Некорректный пароль» не появилась", regPage.isWrongPassErrorMessageVisible());
     }
-
+    
     @Test
     @DisplayName("Проверка, что пользователь не может зарегистрироваться с пустым паролем")
     @Description("Появится ошибка «Некорректный пароль»")

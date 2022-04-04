@@ -12,7 +12,8 @@ import static org.junit.Assert.assertTrue;
 import java.util.Map;
 
 public class AuthPageTest extends Config {
-    Map<String, String> newUser = new UserOperations().register();
+    UserOperations userOperations = new UserOperations();
+    Map<String, String> newUser = userOperations.register();
     String email = newUser.get("email");
     String password = newUser.get("password");
     MainPage mainPage;
@@ -24,7 +25,7 @@ public class AuthPageTest extends Config {
 
     @After
     public void tearDown() {
-        UserOperations.delete();
+        userOperations.delete();
         webdriver().driver().close();
     }
 
